@@ -1,0 +1,7 @@
+# Ignore common files for a small static site
+node_modules/
+.DS_Store
+*.log
+.vscode/
+env/
+dist/
