@@ -1,0 +1,24 @@
+name: HTML Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  htmlhint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run htmlhint via npx
+        run: |
+          npx htmlhint "**/*.html" || true
+        # We don't fail the workflow by default; change behavior if you want strict failures.

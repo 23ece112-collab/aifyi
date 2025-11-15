@@ -1,28 +1,33 @@
+
 # aifyi
 
-This repository contains a small static site (HTML pages) from the local workspace.
+Static HTML site exported from a local workspace.
 
-How to push this to GitHub
+Repository details
 
-Option A — using GitHub CLI (recommended):
+- **Owner:** `23ece112-collab`
+- **Repository:** `aifyi`
+- **Branch:** `main`
+- **Live site (GitHub Pages):** https://23ece112-collab.github.io/aifyi/
 
-1. Authenticate: `gh auth login --web`
-2. Create repo and push: `gh repo create <owner>/<repo-name> --public --source=. --remote=origin --push`
+What this repo contains
 
-Option B — using a Personal Access Token (PAT):
+- `page.html` at the repo root and a few nested HTML pages under `about/`, `blog/`,
+  `contact/`, and `cdn-cgi/l/email-protection/`.
 
-1. Create a repo via the GitHub web UI or API (use a PAT with `repo` scope).
-2. Add the remote and push:
+License
 
-```
-git remote add origin https://github.com/<username>/<repo-name>.git
-git branch -M main
-git push -u origin main
-```
+This repository is licensed under the MIT License — see `LICENSE`.
 
-If you'd like, I can create the remote repo for you — provide permission via the `gh` CLI auth or a PAT and I'll run the commands.
+How I created the repo for you
 
-Files in this repo:
-- `page.html` and several other HTML pages and folders (static site)
+- Installed GitHub CLI locally and used browser-based auth.
+- Created the GitHub repo `23ece112-collab/aifyi` and pushed the initial commit.
+- Added this `README.md`, `LICENSE`, and a basic HTML lint workflow.
 
-License: add a license file if you want this published publicly.
+Next steps (optional)
+
+- Update the `README.md` with a longer project description or screenshots.
+- Add a `CNAME` file if you want a custom domain for GitHub Pages.
+- Add more CI checks or a deploy pipeline if you want automated builds.
+
