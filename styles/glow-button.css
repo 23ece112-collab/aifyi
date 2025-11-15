@@ -1,0 +1,157 @@
+:root{
+  --glow-color: #4C2CFF;
+  --glow-rgb: 76,44,255; /* rgb equivalent for rgba shadows */
+  --btn-radius: 14px;
+  --btn-padding-y: 0.65rem;
+  --btn-padding-x: 1.25rem;
+  --btn-font-weight: 500;
+  --btn-transition: 200ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* Reusable premium soft-glow button */
+.glow-btn{
+  --g-opacity: 0.18; /* base glow opacity (will be doubled on hover) */
+  position: relative;
+  display: inline-block;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  border-radius: var(--btn-radius);
+  color: #ffffff;
+  font-weight: var(--btn-font-weight);
+  font-family: inherit;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.06) 0%,
+      rgba(255,255,255,0.02) 45%,
+      rgba(255,255,255,0.01) 100%
+    ),
+    linear-gradient(180deg, rgba(76,44,255,0.18), rgba(76,44,255,0.04));
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  isolation: isolate; /* keep pseudo-elements behind without overflow issues */
+
+  /* Subtle elevated shadow for floating effect */
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.45),
+    0 4px 12px rgba(0,0,0,0.35);
+
+  transition: transform var(--btn-transition), box-shadow var(--btn-transition), filter var(--btn-transition), opacity var(--btn-transition);
+
+  /* Performance hints */
+  will-change: transform, box-shadow, filter, opacity;
+}
+
+/* Large soft ambient glow layer - behind the button */
+.glow-btn::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 220%;
+  height: 220%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+
+  background: radial-gradient(closest-side, rgba(var(--glow-rgb), calc(var(--g-opacity))) 0%, rgba(var(--glow-rgb), 0.06) 30%, rgba(0,0,0,0) 60%);
+  filter: blur(52px);
+  transition: opacity var(--btn-transition), transform var(--btn-transition), filter var(--btn-transition);
+  opacity: 1;
+}
+
+/* Inner glossy highlight */
+.glow-btn::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 40%, transparent 100%);
+  mix-blend-mode: overlay;
+  z-index: 1;
+  transition: opacity var(--btn-transition);
+  opacity: 1;
+}
+
+/* Static (normal) state specifics for crisp text-on-dark */
+.glow-btn{
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Hover state: double glow intensity, slight scale up, brighten gradient */
+.glow-btn:hover,
+.glow-btn:focus{
+  transform: translateZ(0) scale(1.03);
+  outline: none;
+  box-shadow:
+    0 18px 52px rgba(0,0,0,0.5),
+    0 6px 18px rgba(0,0,0,0.42);
+}
+
+/* Increase glow intensity (2x) by increasing opacity and reduce blur slightly for perceived punch */
+.glow-btn:hover::before,
+.glow-btn:focus::before{
+  --g-opacity: 0.36; /* 2x opacity */
+  filter: blur(46px);
+  transform: translate(-50%, -50%) scale(1.02);
+  opacity: 1;
+}
+
+/* Slightly brighter glossy highlight on hover */
+.glow-btn:hover::after,
+.glow-btn:focus::after{
+  opacity: 1;
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 40%, transparent 100%);
+}
+
+/* Active / pressed state: narrow glow, inner shadow, small scale down */
+.glow-btn:active{
+  transform: translateZ(0) scale(0.975);
+  transition-duration: 120ms;
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.5),
+    0 2px 8px rgba(0,0,0,0.36);
+}
+
+/* Make glow narrower and more focused on press */
+.glow-btn:active::before{
+  --g-opacity: 0.14;
+  filter: blur(36px);
+  transform: translate(-50%, -50%) scale(0.98);
+}
+
+/* Add a soft inner shadow to simulate press */
+.glow-btn:active::after{
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(255,255,255,0.02) 30%, transparent 100%);
+  mix-blend-mode: multiply;
+}
+
+/* Focus-visible accessibility */
+.glow-btn:focus-visible{
+  box-shadow:
+    0 12px 36px rgba(var(--glow-rgb), 0.08),
+    0 4px 12px rgba(0,0,0,0.38),
+    0 0 0 3px rgba(var(--glow-rgb), 0.12);
+}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce){
+  .glow-btn,
+  .glow-btn::before,
+  .glow-btn::after{
+    transition: none !important;
+  }
+  .glow-btn{ transform: none !important; }
+}
+
+/* Small-screen adjustments to avoid overly-large glows */
+@media (max-width: 420px){
+  .glow-btn::before{
+    width: 260%;
+    height: 160%;
+    filter: blur(44px);
+  }
+}
